@@ -8,7 +8,7 @@
 
 */
 
-#include <ifstream> //used to read in file
+#include <fstream> //used to read in file
 
 
 #include "pa3.h" //Include the header file
