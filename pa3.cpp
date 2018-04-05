@@ -9,13 +9,28 @@
 */
 
 #include <fstream> //used to read in file
+#include <string> //used for file 
+#include <iostream> //used to get filename
 
 
 #include "pa3.h" //Include the header file
 
 
+std::string getFileName(){
+    std::string fileName;
+    std::cout<<"Please enter the name of the input file: ";
+    std::cin>>fileName;
+    return fileName;
+}
+
 
 int main(int agrc, char**argv){
     
+    std::string codeFileName = getFileName();
+    
+    std::ifstream infile;
+    infile.open(codeFileName);
+    
+    infile.close();
     
 }
