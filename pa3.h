@@ -12,6 +12,7 @@
 #define PA3_H
 
 std::string getFileName(); //returns filename to open
+void fileCanBeOpened(std::string codeFileName); //checks to see if the file can be opened
 
 
 

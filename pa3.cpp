@@ -24,14 +24,21 @@ std::string getFileName(){ //returns filename to open
     return fileName;
 }
 
+void fileCanBeOpened(std::string codeFileName){ //checks to see if the file can be opened
+    std::ifstream infile(codeFileName); //opens the file
+    if (!infile) //checks to see if the file can be opened
+    {
+        std::cout<<"Error! The file could not be opened.\n"; //prints if file can't be opened
+        infile.close(); //closes the file
+        exit(0); //kills the program
+    }
+    infile.close(); //closes the file
+}
+
 
 int main(int agrc, char**argv){
     
-    std::string codeFileName = getFileName();
-    
-    std::ifstream infile;
-    infile.open(codeFileName);
-    
-    infile.close();
+    std::string codeFileName = getFileName(); //gets the name of the file
+    fileCanBeOpened(codeFileName); //checks to see if the file can be opened
     
 }
