@@ -13,6 +13,8 @@
 
 std::string getFileName(); //returns filename to open
 void fileCanBeOpened(std::string codeFileName); //checks to see if the file can be opened
+std::vector<std::string> fileVectorOpen(std::string codeFileName); //opens the file and stores it as a vector
+std::vector<std::string> removeSpaces(std::vector<std::string> vectorOpen); //removes spaces from the vector
 
 
 
