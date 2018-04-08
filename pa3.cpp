@@ -11,12 +11,13 @@
 #include <fstream> //used to read in file
 #include <string> //used for file 
 #include <iostream> //used to get filename
+#include <vector> //used for my own "stack"
 
 
 #include "pa3.h" //Include the header file
 
 
-std::string getFileName(){
+std::string getFileName(){ //returns filename to open
     std::string fileName;
     std::cout<<"Please enter the name of the input file: ";
     std::cin>>fileName;
