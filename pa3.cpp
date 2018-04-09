@@ -14,6 +14,7 @@
 #include <vector> //used for my own "stack"
 #include <iterator> //ostream_iterator which is used for testing purposes to print the vectors
 #include <algorithm> //used for std::remove
+#include <sstream> //used for stringstream
 
 
 #include "pa3.h" //Include the header file
@@ -58,6 +59,83 @@ std::vector<std::string> removeSpaces(std::vector<std::string> vectorOpen){ //re
     return vectorOpen;
 }
 
+std::vector<std::string> properSplit(std::vector<std::string> vectorRemoved){
+    int commaNumb = 0;
+    int parathesisNumbL = 0;
+    int parathesisNumbR = 0;
+    int equalNumb= 0;
+    int currentVectorSize = vectorRemoved.size();
+    std::vector<std::string> vectorProperSplit;
+    for (int i = 0; i < currentVectorSize; i++){
+        std::string ppString = vectorRemoved.at(i);
+        std::stringstream pp(ppString);
+        while (pp.good()){
+            std::string curString;
+            getline(pp, curString, '(');
+            vectorProperSplit.push_back(curString);
+            parathesisNumbR++;
+            
+        }
+        
+    }
+   
+   
+    currentVectorSize = vectorRemoved.size();
+    for (int i = 0; i < currentVectorSize; i++){
+        std::string ppString = vectorRemoved.at(i);
+        std::stringstream pp(ppString);
+        while (pp.good()){
+            std::string curString;
+            getline(pp, curString, ')');
+            vectorProperSplit.push_back(curString);
+            parathesisNumbL++;
+            
+        }
+    }
+    currentVectorSize = vectorRemoved.size();
+    for (int i = 0; i < currentVectorSize; i++){
+        std::string ppString = vectorRemoved.at(i);
+        std::stringstream pp(ppString);
+        while (pp.good()){
+            std::string curString;
+            getline(pp, curString, ',');
+            vectorProperSplit.push_back(curString);
+            commaNumb++;
+            
+        }
+    }
+    currentVectorSize = vectorRemoved.size();
+    for (int i = 0; i < currentVectorSize; i++){
+        std::string ppString = vectorRemoved.at(i);
+        std::stringstream pp(ppString);
+        while (pp.good()){
+            std::string curString;
+            getline(pp, curString, '=');
+            vectorProperSplit.push_back(curString);
+            equalNumb++;
+            
+        }
+    }
+    
+    
+    
+    std::copy(vectorProperSplit.begin(), vectorProperSplit.end(), std::ostream_iterator<std::string>(std::cout, "/*/")); //testing purposes to print the vector
+    return vectorProperSplit;
+}
+
+
+void CodeClass::setAllWords(std::vector<std::string> finalVector){
+    for (int i = 0; i < finalVector.size(); i++){
+        std::string current = finalVector.back();
+        if (current.compare("BEGIN") || current.compare("END") || current.compare("FOR")){
+            keywords.push_back(current);
+            finalVector.pop_back();
+        }
+    }
+    std::vector<std::string> vectorProperSplit = properSplit(finalVector);
+    finalVector.clear();
+}
+
 
 int main(int agrc, char**argv){
     
@@ -65,7 +143,11 @@ int main(int agrc, char**argv){
     fileCanBeOpened(codeFileName); //checks to see if the file can be opened
     std::vector<std::string> vectorOpen = fileVectorOpen(codeFileName);
     std::vector<std::string> vectorOpenNoSpaces = removeSpaces(vectorOpen);
+    vectorOpen.clear();
+    
     
     std::copy(vectorOpenNoSpaces.begin(), vectorOpenNoSpaces.end(), std::ostream_iterator<std::string>(std::cout, "/*/")); //testing purposes to print the vector
+    std::cout<<"\n\n";
+    std::vector<std::string> testVector = properSplit(vectorOpenNoSpaces); //used for print testing
     
 }
