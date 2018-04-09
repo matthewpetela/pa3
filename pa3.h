@@ -20,7 +20,7 @@ std::vector<std::string> removeSpaces(std::vector<std::string> vectorOpen); //re
 class CodeClass{
     
     private:
-        bool hardCodedKeywordsBool[3];
+        bool hardCodedKeywordsBool[3] = {false};
         bool hardCodedOperatorsBool[6];
         bool hardCodedDelimitersBool[2];
         

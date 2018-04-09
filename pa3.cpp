@@ -186,9 +186,10 @@ void CodeClass::setAllWords(std::vector<std::string> finalVector){
             
             if (std::stringstream(tempString)>>found){
                 constantsValues+=found;
+                constants.push_back(found);
             }
         }
-        constants.push_back(constantsValues);
+        
     }
     
     
@@ -212,12 +213,12 @@ std::vector<std::string> CodeClass::getSyntaxErrors(){
 }
 
 CodeClass::CodeClass(std::vector<std::string> codeVector){
-        const std::string hardCodedKeywords[3] = {"BEGIN", "FOR", "END"}; 
-        const std::string hardCodedOperators[6] = {"+", "-", "*", "/", "++", "="};
-        const char hardCodedDelimiters[2] = {',', ';'};
-        bool hardCodedKeywordsBool[3];
-        bool hardCodedOperatorsBool[6];
-        bool hardCodedDelimitersBool[2];
+        //const std::string hardCodedKeywords[3] = {"BEGIN", "FOR", "END"}; 
+        //const std::string hardCodedOperators[6] = {"+", "-", "*", "/", "++", "="};
+        //const char hardCodedDelimiters[2] = {',', ';'};
+        //bool hardCodedKeywordsBool[3];
+        //bool hardCodedOperatorsBool[6];
+        //bool hardCodedDelimitersBool[2];
     setAllWords(codeVector);
 }
 
@@ -225,6 +226,7 @@ void CodeClass::printScreen(){
     const std::string hardCodedKeywords[3] = {"BEGIN", "FOR", "END"}; 
     const std::string hardCodedOperators[6] = {"+", "-", "*", "/", "++", "="};
     const char hardCodedDelimiters[2] = {',', ';'};
+    
     
     std::cout<<"The depth of nested loop(s) is "<<nestedDepth<<"\n";
     std::cout<<"Keywords: ";
