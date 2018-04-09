@@ -15,30 +15,39 @@ std::string getFileName(); //returns filename to open
 void fileCanBeOpened(std::string codeFileName); //checks to see if the file can be opened
 std::vector<std::string> fileVectorOpen(std::string codeFileName); //opens the file and stores it as a vector
 std::vector<std::string> removeSpaces(std::vector<std::string> vectorOpen); //removes spaces from the vector
-std::vector<std::string> properSplit(std::vector<std::string> vectorRemoved); //splits strings up based on elements
+
 
 class CodeClass{
+    
     private:
+        bool hardCodedKeywordsBool[3];
+        bool hardCodedOperatorsBool[6];
+        bool hardCodedDelimitersBool[2];
+        
         int nestedDepth;
-        std::vector<std::string> identifiers;
-        std::vector<std::string> constants;
+        int leftPara;
+        int rightPara;
+        int comma;
+        int semiColon;
         std::vector<std::string> keywords;
         std::vector<std::string> operators;
         std::vector<std::string> delimiters;
+        
+        std::vector<std::string> identifiers;
         std::vector<std::string> syntaxErrors;
+        std::vector<std::string> constants;
         
     public:
+        CodeClass();
         CodeClass(std::vector<std::string> finalVector);
-        ~CodeClass();
+        //~CodeClass();
         
         void setAllWords(std::vector<std::string> finalVector);
+        void printScreen();
         
         int getNestedDepth();
         std::vector<std::string> getIdentifiers();
         std::vector<std::string> getConstants();
-        std::vector<std::string> getKeywords();
-        std::vector<std::string> getOperators();
-        std::vector<std::string> getDelimiters();
         std::vector<std::string> getSyntaxErrors();
 };
 

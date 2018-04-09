@@ -59,81 +59,147 @@ std::vector<std::string> removeSpaces(std::vector<std::string> vectorOpen){ //re
     return vectorOpen;
 }
 
-std::vector<std::string> properSplit(std::vector<std::string> vectorRemoved){
-    int commaNumb = 0;
-    int parathesisNumbL = 0;
-    int parathesisNumbR = 0;
-    int equalNumb= 0;
-    int currentVectorSize = vectorRemoved.size();
-    std::vector<std::string> vectorProperSplit;
-    for (int i = 0; i < currentVectorSize; i++){
-        std::string ppString = vectorRemoved.at(i);
-        std::stringstream pp(ppString);
-        while (pp.good()){
-            std::string curString;
-            getline(pp, curString, '(');
-            vectorProperSplit.push_back(curString);
-            parathesisNumbR++;
-            
-        }
-        
-    }
-   
-   
-    currentVectorSize = vectorRemoved.size();
-    for (int i = 0; i < currentVectorSize; i++){
-        std::string ppString = vectorRemoved.at(i);
-        std::stringstream pp(ppString);
-        while (pp.good()){
-            std::string curString;
-            getline(pp, curString, ')');
-            vectorProperSplit.push_back(curString);
-            parathesisNumbL++;
-            
-        }
-    }
-    currentVectorSize = vectorRemoved.size();
-    for (int i = 0; i < currentVectorSize; i++){
-        std::string ppString = vectorRemoved.at(i);
-        std::stringstream pp(ppString);
-        while (pp.good()){
-            std::string curString;
-            getline(pp, curString, ',');
-            vectorProperSplit.push_back(curString);
-            commaNumb++;
-            
-        }
-    }
-    currentVectorSize = vectorRemoved.size();
-    for (int i = 0; i < currentVectorSize; i++){
-        std::string ppString = vectorRemoved.at(i);
-        std::stringstream pp(ppString);
-        while (pp.good()){
-            std::string curString;
-            getline(pp, curString, '=');
-            vectorProperSplit.push_back(curString);
-            equalNumb++;
-            
-        }
-    }
-    
-    
-    
-    std::copy(vectorProperSplit.begin(), vectorProperSplit.end(), std::ostream_iterator<std::string>(std::cout, "/*/")); //testing purposes to print the vector
-    return vectorProperSplit;
-}
+
 
 
 void CodeClass::setAllWords(std::vector<std::string> finalVector){
-    for (int i = 0; i < finalVector.size(); i++){
-        std::string current = finalVector.back();
-        if (current.compare("BEGIN") || current.compare("END") || current.compare("FOR")){
-            keywords.push_back(current);
+    for (unsigned int i = 0; i < finalVector.size(); i++){
+        std::string current = finalVector.at(i);
+        if (current.std::string::find("BEGIN")!= std::string::npos){
+            std::string begin = "BEGIN";
+            hardCodedKeywordsBool[0] = true;
+            std::size_t loc1 = current.find(begin);
+            current.replace(loc1, begin.length(), "");
+            finalVector.at(i) = current;
+        }
+        
+        if (current.std::string::find("FOR")!= std::string::npos){
+            std::string forS = "FOR";
+            hardCodedKeywordsBool[1] = true;
+            std::size_t loc2 = current.find(forS);
+            current.replace(loc2, forS.length(), "");
+            finalVector.at(i) = current;
+        }
+        
+        if (current.std::string::find("END")!= std::string::npos){
+            std::string endS = "END";
+            hardCodedKeywordsBool[2] = true;
+            std::size_t loc3 = current.find(endS);
+            current.replace(loc3, endS.length(), "");
+            finalVector.at(i) = current;
+        }
+        
+        if (current.std::string::find("++")!= std::string::npos){
+            std::string plusp = "++";
+            hardCodedOperatorsBool[4] = true;
+            std::size_t loc3 = current.find(plusp);
+            current.replace(loc3, plusp.length(), "");
+            finalVector.at(i) = current;
+        }
+        
+        while (finalVector.back() == ""){
             finalVector.pop_back();
         }
     }
-    std::vector<std::string> vectorProperSplit = properSplit(finalVector);
-    finalVector.clear();
+    
+    int finalVectorSize = finalVector.size();
+    for (int i = 0; i < finalVectorSize; i++){
+        std::string current = finalVector.at(i);
+        int symbolOccurence[5];
+        char symbols[6] = {')', '(', ',', '=', '+', ';'};
+        for (int j=0; j < 6; j++){
+            symbolOccurence[j] = std::count(current.begin(), current.end(), symbols[j]);
+            if (j == 0){
+                leftPara+=symbolOccurence[j];
+                while(current.std::string::find(')')!=std::string::npos){
+                    std::size_t loc = current.find(')');
+                    current.replace(loc, 1, " ");
+                    finalVector.at(i) = current;
+                }
+                
+            }
+            else if (j == 1){
+                rightPara+=symbolOccurence[j];
+                while(current.std::string::find('(')!=std::string::npos){
+                    std::size_t loc = current.find('(');
+                    current.replace(loc, 1, " ");
+                    finalVector.at(i) = current;
+                }
+                
+            }
+            else if (j == 2){
+                comma+=symbolOccurence[j];
+                while(current.std::string::find(',')!=std::string::npos){
+                    std::size_t loc = current.find(',');
+                    current.replace(loc, 1, " ");
+                    finalVector.at(i) = current;
+                }
+            }
+            else if (j == 3){
+                hardCodedOperatorsBool[5] = true;
+                while(current.std::string::find('=')!=std::string::npos){
+                    std::size_t loc = current.find('=');
+                    current.replace(loc, 1, " ");
+                    finalVector.at(i) = current;
+                }
+            }
+            else if (j == 4){
+                hardCodedOperatorsBool[0] = true;
+                while(current.std::string::find('+')!=std::string::npos){
+                    std::size_t loc = current.find('+');
+                    current.replace(loc, 1, " ");
+                    finalVector.at(i) = current;
+                }
+            }
+            else{
+                hardCodedDelimitersBool[1] = true;
+                while(current.std::string::find(';')!=std::string::npos){
+                    std::size_t loc = current.find(';');
+                    current.replace(loc, 1, " ");
+                    finalVector.at(i) = current;
+                }
+                
+            }
+        }
+        
+        
+    
+        //while (finalVector.back() == ""){
+        //    finalVector.pop_back();
+        //}
+    }
+    //finalVector.clear();
+    std::copy(finalVector.begin(), finalVector.end(), std::ostream_iterator<std::string>(std::cout, "/*/"));
+}
+
+int CodeClass::getNestedDepth(){
+    return nestedDepth;
+}
+
+std::vector<std::string> CodeClass::getIdentifiers(){
+    return identifiers;
+}
+std::vector<std::string> CodeClass::getConstants(){
+    return constants;
+}
+
+std::vector<std::string> CodeClass::getSyntaxErrors(){
+    return syntaxErrors;        
+}
+
+CodeClass::CodeClass(std::vector<std::string> codeVector){
+        const std::string hardCodedKeywords[3] = {"BEGIN", "FOR", "END"}; 
+        const std::string hardCodedOperators[6] = {"+", "-", "*", "/", "++", "="};
+        const char hardCodedDelimiters[2] = {',', ';'};
+        bool hardCodedKeywordsBool[3];
+        bool hardCodedOperatorsBool[6];
+        bool hardCodedDelimitersBool[2];
+    setAllWords(codeVector);
+}
+
+void CodeClass::printScreen(){
+    
+    
 }
 
 
@@ -145,9 +211,10 @@ int main(int agrc, char**argv){
     std::vector<std::string> vectorOpenNoSpaces = removeSpaces(vectorOpen);
     vectorOpen.clear();
     
+    CodeClass codeClassVector(vectorOpenNoSpaces);
     
-    std::copy(vectorOpenNoSpaces.begin(), vectorOpenNoSpaces.end(), std::ostream_iterator<std::string>(std::cout, "/*/")); //testing purposes to print the vector
+    
+    //std::copy(vectorOpenNoSpaces.begin(), vectorOpenNoSpaces.end(), std::ostream_iterator<std::string>(std::cout, "/*/")); //testing purposes to print the vector
     std::cout<<"\n\n";
-    std::vector<std::string> testVector = properSplit(vectorOpenNoSpaces); //used for print testing
     
 }
