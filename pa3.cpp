@@ -15,6 +15,7 @@
 #include <iterator> //ostream_iterator which is used for testing purposes to print the vectors
 #include <algorithm> //used for std::remove
 #include <sstream> //used for stringstream
+#include <locale>  //used for isupper
 
 
 #include "pa3.h" //Include the header file
@@ -129,6 +130,7 @@ void CodeClass::setAllWords(std::vector<std::string> finalVector){
             }
             else if (j == 2){
                 comma+=symbolOccurence[j];
+                hardCodedDelimitersBool[0] = true;
                 while(current.std::string::find(',')!=std::string::npos){
                     std::size_t loc = current.find(',');
                     current.replace(loc, 1, " ");
@@ -163,13 +165,35 @@ void CodeClass::setAllWords(std::vector<std::string> finalVector){
         }
         
         
+        
+        
     
-        //while (finalVector.back() == ""){
-        //    finalVector.pop_back();
-        //}
+        while (finalVector.back() == ""){
+            finalVector.pop_back();
+        }
     }
+    
+    finalVectorSize = finalVector.size();
+    for (int i = 0; i < finalVectorSize; i++){
+        int constantsValues;
+        std::string current = finalVector.at(i);
+        std::stringstream ss;
+        ss >> current;
+        std::string tempString;
+        int found;
+        while(!ss.eof()){
+            ss>>tempString;
+            
+            if (std::stringstream(tempString)>>found){
+                constantsValues+=found;
+            }
+        }
+        constants.push_back(constantsValues);
+    }
+    
+    
     //finalVector.clear();
-    std::copy(finalVector.begin(), finalVector.end(), std::ostream_iterator<std::string>(std::cout, "/*/"));
+    //std::copy(finalVector.begin(), finalVector.end(), std::ostream_iterator<std::string>(std::cout, "/*/")); //used for print testing
 }
 
 int CodeClass::getNestedDepth(){
@@ -179,7 +203,7 @@ int CodeClass::getNestedDepth(){
 std::vector<std::string> CodeClass::getIdentifiers(){
     return identifiers;
 }
-std::vector<std::string> CodeClass::getConstants(){
+std::vector<int> CodeClass::getConstants(){
     return constants;
 }
 
@@ -198,6 +222,46 @@ CodeClass::CodeClass(std::vector<std::string> codeVector){
 }
 
 void CodeClass::printScreen(){
+    const std::string hardCodedKeywords[3] = {"BEGIN", "FOR", "END"}; 
+    const std::string hardCodedOperators[6] = {"+", "-", "*", "/", "++", "="};
+    const char hardCodedDelimiters[2] = {',', ';'};
+    
+    std::cout<<"The depth of nested loop(s) is "<<nestedDepth<<"\n";
+    std::cout<<"Keywords: ";
+    for (int i = 0; i < 3; i++){
+        if (hardCodedKeywordsBool[i]){
+            std::cout<<hardCodedKeywords[i]<<" ";
+        }
+    }
+    std::cout<<"\n";
+    std::cout<<"Identifier: ";
+    for (int i = 0; i < 3; i++){
+        if (hardCodedKeywordsBool[i]){
+            std::cout<<hardCodedKeywords[i]<<" ";
+        }
+    }
+    std::cout<<"\n";
+    std::cout<<"Constant: ";
+    std::copy(getConstants().begin(), getConstants().end(), std::ostream_iterator<int>(std::cout, " "));
+    std::cout<<"\n";
+    std::cout<<"Operators: ";
+    for (int i = 0; i < 6; i++){
+        if (hardCodedOperatorsBool[i]){
+            std::cout<<hardCodedOperators[i]<<" ";
+        }
+    }
+    std::cout<<"\n";
+    std::cout<<"Delimiter: ";
+    for (int i = 0; i < 2; i++){
+        if (hardCodedDelimitersBool[i]){
+            std::cout<<hardCodedDelimiters[i]<<" ";
+        }
+    }
+    std::cout<<"\n";
+    std::cout<<"Syntax Error(s): ";
+    
+    std::cout<<"\n";
+    
     
     
 }
@@ -212,6 +276,8 @@ int main(int agrc, char**argv){
     vectorOpen.clear();
     
     CodeClass codeClassVector(vectorOpenNoSpaces);
+    
+    codeClassVector.printScreen();
     
     
     //std::copy(vectorOpenNoSpaces.begin(), vectorOpenNoSpaces.end(), std::ostream_iterator<std::string>(std::cout, "/*/")); //testing purposes to print the vector

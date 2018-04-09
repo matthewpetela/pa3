@@ -35,7 +35,7 @@ class CodeClass{
         
         std::vector<std::string> identifiers;
         std::vector<std::string> syntaxErrors;
-        std::vector<std::string> constants;
+        std::vector<int> constants;
         
     public:
         CodeClass();
@@ -47,7 +47,7 @@ class CodeClass{
         
         int getNestedDepth();
         std::vector<std::string> getIdentifiers();
-        std::vector<std::string> getConstants();
+        std::vector<int> getConstants();
         std::vector<std::string> getSyntaxErrors();
 };
 
